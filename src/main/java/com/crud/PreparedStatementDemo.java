@@ -1,14 +1,12 @@
 package com.crud;
 
+import com.util.JDBCUtils;
 import org.junit.Test;
 
-import java.io.InputStream;
-import java.sql.Connection;
+import java.sql.ResultSet;
 import java.util.Date;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.text.SimpleDateFormat;
-import java.util.Properties;
 
 /**
  * 使用PreparedStatement代替Statement实现CRUD操作
@@ -17,35 +15,58 @@ public class PreparedStatementDemo {
 
     @Test
     public void testInsert()throws Exception{
-        // 1.加载配置文件
-        InputStream is = PreparedStatementDemo.class.getClassLoader().getResourceAsStream("db.properties");
-        Properties properties = new Properties();
-        properties.load(is);
-
-        // 2.读取配置信息
-        String driver = properties.getProperty("jdbc.driver");
-        String url = properties.getProperty("jdbc.url");
-        String user = properties.getProperty("jdbc.user");
-        String password = properties.getProperty("jdbc.password");
-
-        // 3.加载驱动
-        Class.forName(driver);
-
-        // 4.获取连接
-        Connection conn = DriverManager.getConnection(url, user, password);
-
         String sql = "insert into customers(name,email,birth) values(?,?,?)";
-        PreparedStatement ps = conn.prepareStatement(sql);
+        PreparedStatement ps = JDBCUtils.getConnection().prepareStatement(sql);
         /**填充占位符*/
-        ps.setString(1,"lijun");
-        ps.setString(2,"lijun@qq.com");
+        ps.setString(1,"wangwu");
+        ps.setString(2,"wangwu@qq.com");
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = format.parse("1996-12-17");
+        Date date = format.parse("1999-12-17");
         ps.setDate(3,new java.sql.Date(date.getTime()));
         /**执行sql操作*/
         ps.execute();
         /**关闭流*/
         ps.close();
-        conn.close();
+        JDBCUtils.closeConn();
+    }
+
+    @Test
+    public void testUpdate(){
+        String sql = "update user set name=? where id=?";
+        this.alter(sql,"吴梦瑶",5);
+    }
+
+    @Test
+    public void testDelete(){
+        String sql = "delete from customers where id=?";
+        this.alter(sql,19);
+    }
+
+    /**
+     * 通用的增删改操作方法
+     */
+    public void alter(String sql,Object... args){
+        try(PreparedStatement ps = JDBCUtils.getConnection().prepareStatement(sql)){
+            /**sql中的占位符与传入可变参数的个数一致*/
+            int length = args.length;
+            /**填充占位符*/
+            for (int i = 0; i < length; i++) {
+                ps.setObject(i + 1,args[i]);
+            }
+            /**执行sql*/
+            ps.execute();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        /**关闭资源*/
+        finally {
+            try{
+                JDBCUtils.closeConn();
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
+        }
     }
 }
