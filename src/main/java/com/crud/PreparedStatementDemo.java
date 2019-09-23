@@ -3,13 +3,15 @@ package com.crud;
 import com.util.JDBCUtils;
 import org.junit.Test;
 
-import java.sql.ResultSet;
 import java.util.Date;
 import java.sql.PreparedStatement;
 import java.text.SimpleDateFormat;
 
 /**
  * 使用PreparedStatement代替Statement实现CRUD操作
+ * PreparedStatement解决了Statement的拼串和sql注入问题
+ * 而且可以处理Blob类型的数据
+ * 更高效的批量插入
  */
 public class PreparedStatementDemo {
 
