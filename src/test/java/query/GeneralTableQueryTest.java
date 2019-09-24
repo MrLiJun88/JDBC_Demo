@@ -71,6 +71,7 @@ public class GeneralTableQueryTest {
     public <T> List<T> getForList(Class<T> clazz, String sql, Object... args) throws Exception{
         PreparedStatement ps = JDBCUtils.getConnection().prepareStatement(sql);
         for (int i = 0; i < args.length; i++) {
+            /**为占位符设置参数*/
             ps.setObject(i + 1,args[i]);
         }
         ResultSet set = ps.executeQuery();
