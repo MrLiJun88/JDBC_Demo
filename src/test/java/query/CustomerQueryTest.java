@@ -33,7 +33,7 @@ public class CustomerQueryTest {
                 customer.setName(name);
                 customer.setEmail(email);
                 customer.setBirthday(birthday);
-                customer.setPhone(photo);
+                customer.setPhoto(photo);
             }
             System.out.println(customer);
         }

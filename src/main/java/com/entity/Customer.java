@@ -7,7 +7,7 @@ public class Customer {
     String name;
     String email;
     Date birthday;
-    String phone;
+    String photo;
 
     @Override
     public String toString() {
@@ -16,7 +16,7 @@ public class Customer {
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", birthday=" + birthday +
-                ", phone='" + phone + '\'' +
+                ", photo='" + photo + '\'' +
                 '}';
     }
 
@@ -52,11 +52,11 @@ public class Customer {
         this.birthday = birthday;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getPhoto() {
+        return photo;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 }
