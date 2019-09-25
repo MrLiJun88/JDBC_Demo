@@ -4,9 +4,7 @@ public class User {
 
 	private String user;
 	private String password;
-
-	public User() {
-	}
+	private int balance;
 
 	public User(String user, String password) {
 		super();
@@ -16,7 +14,11 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [user=" + user + ", password=" + password + "]";
+		return "User{" +
+				"user='" + user + '\'' +
+				", password='" + password + '\'' +
+				", balance=" + balance +
+				'}';
 	}
 
 	public String getUser() {
@@ -35,4 +37,11 @@ public class User {
 		this.password = password;
 	}
 
+	public int getBalance() {
+		return balance;
+	}
+
+	public void setBalance(int balance) {
+		this.balance = balance;
+	}
 }
